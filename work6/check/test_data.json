@@ -1,0 +1,87 @@
+{
+  "test_cases": {
+    "normal_scenarios": [
+      {
+        "name": "单商品结账",
+        "input": {
+          "items": [
+            {"price": 100, "quantity": 1}
+          ]
+        },
+        "expected": {
+          "status_code": 200,
+          "total": 100
+        }
+      },
+      {
+        "name": "多商品结账",
+        "input": {
+          "items": [
+            {"price": 100, "quantity": 2},
+            {"price": 50, "quantity": 3}
+          ]
+        },
+        "expected": {
+          "status_code": 200,
+          "total": 350
+        }
+      },
+      {
+        "name": "小数价格",
+        "input": {
+          "items": [
+            {"price": 19.99, "quantity": 3},
+            {"price": 5.50, "quantity": 2}
+          ]
+        },
+        "expected": {
+          "status_code": 200,
+          "total": 70.97
+        }
+      }
+    ],
+    "error_scenarios": [
+      {
+        "name": "空购物车",
+        "input": {
+          "items": []
+        },
+        "expected": {
+          "status_code": 400,
+          "error": "empty cart"
+        }
+      },
+      {
+        "name": "缺少items字段",
+        "input": {},
+        "expected": {
+          "status_code": 400
+        }
+      }
+    ],
+    "boundary_scenarios": [
+      {
+        "name": "零价格",
+        "input": {
+          "items": [
+            {"price": 0, "quantity": 5}
+          ]
+        },
+        "expected": {
+          "status_code": 200,
+          "total": 0
+        }
+      },
+      {
+        "name": "大量商品",
+        "input": {
+          "items": "{{generate 100 items with price 10 and quantity 1}}"
+        },
+        "expected": {
+          "status_code": 200,
+          "total": 1000
+        }
+      }
+    ]
+  }
+}
